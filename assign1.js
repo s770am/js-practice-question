@@ -117,7 +117,7 @@ var transactions = [
   */
   var totalTransactions = transactions.length;
   
-  console.log( 'The total number of transactions is:', totalTransactions );
+  // console.log( 'The total number of transactions is:', totalTransactions );
   
   
   // --------------------------------------------------
@@ -129,16 +129,35 @@ var transactions = [
     HINT(S):
     - Not all transactions are 'sales'.
   */
-  var numSales = 0;
+  // var numSales = 0;
+
+  // transactions.forEach(transaction => {
+  //   if (transaction.type === 'sale') {
+  //     numSales++;
+  //   }
+  // });
+
+  // console.log("the total number of sales is " + numSales)
+
+
+  var sales = []
+
+  transactions.forEach(transaction => {
+      if (transaction.type === 'sale') {
+        sales.push(transaction);
+      }
+    });
+
+    console.log("the total number of sales is " + sales.length)
   
   // iterate through transactions
   // if the type is 'sale', add 1 to numSales
   
-  transactions.forEach(function(transaction) {
-    if (transaction.type === 'sale') {
-      numSales++;
-    }
-  });
+  // transactions.forEach(function(transaction) {
+  //   if (transaction.type === 'sale') {
+  //     numSales++;
+  //   }
+  // });
   
   /*
     Hey, welcome to the first question!
@@ -169,6 +188,13 @@ var transactions = [
   */
   var numPurchases = 0;
   
+  transactions.forEach(transaction => {
+    if (transaction.type === 'purchase') {
+      numPurchases++;
+    }
+  });
+  console.log("the total number of purchases is " + numPurchases)
+
   
   // --------------------------------------------------
   // QUESTION 03
@@ -179,7 +205,18 @@ var transactions = [
     HINT(S):
     - Don't forget that 'purchases' can also be made in 'cash'!
   */
-  var numCashSales 
+  var numCashSales = 0
+
+  
+  transactions.forEach(transaction => {
+    if (transaction.type === 'sale') {
+     if (transaction.paymentMethod === 'cash') {
+      numCashSales++;
+     }
+    }
+  });
+
+  console.log("the num of numCashSales is " + numCashSales)
   
   // --------------------------------------------------
   // QUESTION 04
@@ -191,8 +228,19 @@ var transactions = [
     - Make sure to exclude any 'sales' made by 'credit'!
   */
   
-  var creditPurchases 
+    
+
+  var creditPurchases = 0
+
+  transactions.forEach(transaction => {
+    if (transaction.type === 'purchase') {
+      if (transaction.paymentMethod === 'credit') {
+        creditPurchases++
+      }
+    }
+  });
   
+  console.log("the num of creditPurchases is " + creditPurchases)
   // --------------------------------------------------
   // QUESTION 05
   // --------------------------------------------------
@@ -205,8 +253,16 @@ var transactions = [
     - The assembled array should be made up of strings, not full `transaction` objects.
     - This array is allowed to contain duplicate values.
   */
+
   var uniqueVendors = [];
 
+  transactions.forEach(transaction => {
+    if (transaction.vendor && uniqueVendors.indexOf(transaction.vendor) === -1) {
+      uniqueVendors.push(transaction.vendor);
+    }
+  })
+
+  console.log(uniqueVendors);
   
 
   
@@ -223,9 +279,15 @@ var transactions = [
     - Make sure that the resulting array *does not* include any duplicates.
   */
   
-  var uniqueCustomers 
+  var uniqueCustomers  = []
   
+  transactions.forEach(transaction => {
+    if (transaction.customer  && uniqueCustomers.indexOf(transaction.customer) === -1) {
+      uniqueCustomers.push(transaction.customer);
+    }
+  })
 
+  console.log(uniqueCustomers);
   
   // --------------------------------------------------
   // QUESTION 07
@@ -240,9 +302,11 @@ var transactions = [
     - There may be more than 1 'sale' that includes 5 or more items.
     - Individual transactions do not have either `name` or `numItems` properties, we'll have to add them to the output.
   */
-  var bigSpenders;
+  var bigSpenders = transactions.filter(transaction =>  transaction.items.length >= 5 && transaction.type === 'sale')
+       .map(transaction => {return {name: transaction.customer, numItems: transaction.items.length};});
+       
   
-
+console.log(bigSpenders)
   
   
   // --------------------------------------------------
@@ -254,10 +318,13 @@ var transactions = [
     HINT(S):
     - Transactions don't have 'prices', but their 'items' do!
   */
-  var sumSales;
+  var sumSales = 0;
 
+  sales[0].items.forEach(item => {
+    sumSales += item.price
+  })
   
-  
+  console.log("the totlal sale for item for transaction 1 is " + sumSales)
   // --------------------------------------------------
   // QUESTION 09
   // --------------------------------------------------
@@ -269,10 +336,19 @@ var transactions = [
     - Make sure to include 'price' information from *all* purchases.
   */
   
-  var sumPurchases;
+  var sumPurchases = 0;
 
+  let purchases = transactions.filter(transaction =>  transaction.type === 'purchase');
+
+purchases.forEach(purchase => {
+  purchase.items.forEach(item => {
+     sumPurchases += item.price;
+
+  });
+})
   
-  
+  console.log("the total cost of purchases is " + Math.abs(sumPurchases))
+
   // --------------------------------------------------
   // QUESTION 10
   // --------------------------------------------------
