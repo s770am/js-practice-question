@@ -343,7 +343,6 @@ console.log(bigSpenders)
 purchases.forEach(purchase => {
   purchase.items.forEach(item => {
      sumPurchases += item.price;
-
   });
 })
   
@@ -362,10 +361,17 @@ purchases.forEach(purchase => {
     HINT(S):
     - Unlike 'QUESTION 08' and 'QUESTION 09', here we're interested in both 'sale' and 'purchase' transactions.
   */
-  var netProfit;
+  
+  let sumSalesAll =0;
 
-  
-  
+  sales.forEach(sale => {
+    sale.items.forEach(item => {
+       sumSalesAll += item.price;
+    });
+  });
+    var netProfit = sumSalesAll + sumPurchases;
+
+    console.log("the total company account is " + netProfit)
 
   // --------------------------------------------------
   // QUESTION 11
@@ -376,9 +382,17 @@ purchases.forEach(purchase => {
     HINTS:
     - The result of this calculation should be a number (not an array, object, or other data type).
   */
-  var mostItems;
+  var mostItems = 0;
   
+  transactions.forEach(transaction => {
+    let transactionItems = transaction.items.length
 
+if (transactionItems > mostItems) {
+  mostItems = transactionItems;
+}
+  });
+
+  console.log(`the biggest transaction is ${mostItems} items big`)
 
   // --------------------------------------------------
   // QUESTION 12
@@ -386,4 +400,22 @@ purchases.forEach(purchase => {
   /*
     Calculate the sum of the 'purchase' with the fewest items.
   */
-  var sumOfSmallestPurchase;
+  var sumOfSmallestPurchase = 0;
+
+  let leastItems = 0;
+  let myIndex =0;
+  
+  purchases.forEach((purchase, index) => {
+     
+if (purchase.items.length < mostItems) {
+  leastItems = purchase.items.length;
+  myIndex = index;
+}
+
+  });
+  let totalPrice = 0;
+  purchases[myIndex].items.forEach(item => {
+  totalPrice += item.price
+  })
+  console.log(`the least purchase items sum is ${Math.abs(totalPrice)}`)
+
